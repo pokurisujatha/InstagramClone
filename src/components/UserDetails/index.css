@@ -1,0 +1,165 @@
+/* .page-container {
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+.body-container {
+  max-width: 975px;
+  margin: 0 auto;
+  padding: 20px;
+} */
+
+
+
+.user-details-main-container {
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+.user-details-content {
+  max-width: 935px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.profile-header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.user-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 60px;
+}
+
+.user-info-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-display-name {
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: #262626;
+  margin: 0 0 20px 0;
+}
+
+.user-stats-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 20px;
+}
+
+.stat-text {
+  font-size: 16px;
+  color: #262626;
+  margin: 0;
+}
+
+.stat-number {
+  font-weight: 600;
+}
+
+.user-bio-name {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0 0 4px 0;
+}
+
+.user-bio-text {
+  font-size: 14px;
+  color: #262626;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.stories-highlights-list {
+  display: flex;
+  gap: 20px;
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.highlight-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #dbdbdb;
+}
+
+.profile-divider {
+  border: none;
+  border-top: 1px solid #dbdbdb;
+  margin: 24px 0 0 0;
+}
+
+.posts-tab-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.posts-tab-title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #262626;
+  margin-top: 12px;
+}
+
+/* No Posts View */
+.no-posts-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+.camera-icon-wrapper {
+  width: 80px;
+  height: 80px;
+  border: 2px solid #262626;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.camera-icon {
+  font-size: 44px;
+  color: #262626;
+}
+
+.no-posts-heading {
+  font-family: 'Roboto', sans-serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: #262626;
+  margin: 0;
+}
+
+/* Posts Grid */
+.user-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  list-style-type: none;
+  padding: 0;
+  margin-top: 24px;
+}
+
+.grid-post-img {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+}

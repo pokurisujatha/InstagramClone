@@ -1,0 +1,61 @@
+/* .page-container {
+  min-height: 100vh;
+  background-color: #fafafa;
+}
+
+.body-container {
+  max-width: 975px;
+  margin: 0 auto;
+  padding: 20px;
+} */
+
+/* 
+
+.page-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #fafafa;
+}
+
+.body-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 20px;
+  box-sizing: border-box;
+} */
+
+
+* {
+  box-sizing: border-box !important;
+}
+
+html,
+body,
+#root {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: hidden;
+}
+
+.page-container,
+.body-container,
+.home-main-container,
+.home-content-container,
+.posts-list-container,
+.post-item-container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 16px !important;
+}
+
+/* Ensure post images expand fully */
+.post-image {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 800px;
+  object-fit: cover;
+}
