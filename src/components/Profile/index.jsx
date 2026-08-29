@@ -1,84 +1,179 @@
-import {useState, useEffect} from 'react'
+
+
+import {Component} from 'react'
+import {BiCamera} from 'react-icons/bi'
 import Cookies from 'js-cookie'
 import Header from '../Header'
-import Profile from '../Profile'
-import FailureView from '../FailureView'
-import apiStatusConstants from '../../constants/APIConstants'
 import './index.css'
 
-const MyProfile = () => {
-  const [apiStatus, setApiStatus] = useState(apiStatusConstants.initial)
-  const [profileData, setProfileData] = useState({})
-
-  const getMyProfile = async () => {
-    setApiStatus(apiStatusConstants.inProgress)
-    const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/insta-share/my-profile'
-    const options = {headers: {Authorization: `Bearer ${jwtToken}`}}
-
-    try {
-      const response = await fetch(url, options)
-      if (response.ok) {
-        const data = await response.json()
-        const p = data.profile
-        const formattedData = {
-          id: p.id,
-          userId: p.user_id,
-          userName: p.user_name,
-          profilePic: p.profile_pic,
-          followersCount: p.followers_count,
-          followingCount: p.following_count,
-          userBio: p.user_bio,
-          postsCount: p.posts_count,
-          posts: p.posts,
-          stories: p.stories,
-        }
-        setProfileData(formattedData)
-        setApiStatus(apiStatusConstants.success)
-      } else {
-        setApiStatus(apiStatusConstants.failure)
-      }
-    } catch {
-      setApiStatus(apiStatusConstants.failure)
-    }
-  }
-
-  useEffect(() => {
-    getMyProfile()
-  }, [])
-
-  const renderLoader = () => (
-    <div className="loader-container" data-testid="loader">
-      <div className="spinner"></div>
-    </div>
-  )
-
-  const renderProfile = () => {
-    switch (apiStatus) {
-      case apiStatusConstants.inProgress:
-        return renderLoader()
-      case apiStatusConstants.success:
-        return (
-          <Profile
-            profileData={profileData}
-            profileAlt="my profile"
-            storyAlt="my story"
-            postAlt="my post"
-          />
-        )
-      case apiStatusConstants.failure:
-        return <FailureView onRetry={getMyProfile} />
-      default:
-        return null
-    }
-  }
-
-  return (
-    <div className="page-container">
-      <Header />
-      <div className="body-container">{renderProfile()}</div>
-    </div>
-  )
+const apiStatusConstants = {
+  initial: 'INITIAL',
+  inProgress: 'IN_PROGRESS',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
 }
 
-export default MyProfile
+class Profile extends Component {
+  state = {
+    myProfileData: {},
+    apiStatus: apiStatusConstants.initial,
+  }
+
+  componentDidMount() {
+    this.getMyProfile()
+  }
+
+  getMyProfile = async () => {
+    this.setState({apiStatus: apiStatusConstants.inProgress})
+    const jwtToken = Cookies.get('jwt_token')
+    const apiUrl = 'https://apis.ccbp.in/insta-share/my-profile'
+    const options = {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+      method: 'GET',
+    }
+
+    try {
+      const response = await fetch(apiUrl, options)
+      if (response.ok) {
+        const data = await response.json()
+        const profile = data.profile
+        const updatedData = {
+          id: profile.id,
+          userId: profile.user_id,
+          userName: profile.user_name,
+          profilePic: profile.profile_pic,
+          followersCount: profile.followers_count,
+          followingCount: profile.following_count,
+          userBio: profile.user_bio,
+          postsCount: profile.posts_count,
+          posts: profile.posts || [],
+          stories: profile.stories || [],
+        }
+        this.setState({
+          myProfileData: updatedData,
+          apiStatus: apiStatusConstants.success,
+        })
+      } else {
+        this.setState({apiStatus: apiStatusConstants.failure})
+      }
+    } catch {
+      this.setState({apiStatus: apiStatusConstants.failure})
+    }
+  }
+
+  renderSuccessView = () => {
+    const {myProfileData} = this.state
+    const {
+      userName,
+      profilePic,
+      followersCount,
+      followingCount,
+      userBio,
+      postsCount,
+      posts,
+      stories,
+    } = myProfileData
+
+    return (
+      <div className="profile-details-card">
+        <div className="profile-header-container">
+          <img src={profilePic} alt="my profile" className="user-avatar" />
+          <div className="user-info-section">
+            <h1 className="user-display-name">{userName}</h1>
+            <div className="user-stats-row">
+              <p className="stat-text">
+                <span className="stat-number">{postsCount}</span> posts
+              </p>
+              <p className="stat-text">
+                <span className="stat-number">{followersCount}</span> followers
+              </p>
+              <p className="stat-text">
+                <span className="stat-number">{followingCount}</span> following
+              </p>
+            </div>
+            <p className="user-bio-name">{userName}</p>
+            <p className="user-bio-text">{userBio}</p>
+          </div>
+        </div>
+
+        {stories.length > 0 && (
+          <ul className="stories-highlights-list">
+            {stories.map(story => (
+              <li key={story.id} className="highlight-item">
+                <img
+                  src={story.image}
+                  alt="my story"
+                  className="highlight-img"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <hr className="profile-divider" />
+
+        <div className="posts-tab-header">
+          <h2 className="posts-tab-title">Posts</h2>
+        </div>
+
+        {posts.length === 0 ? (
+          <div className="no-posts-container">
+            <div className="camera-icon-wrapper">
+              <BiCamera className="camera-icon" />
+            </div>
+            <h1 className="no-posts-heading">No Posts Yet</h1>
+          </div>
+        ) : (
+          <ul className="user-posts-grid">
+            {posts.map(post => (
+              <li key={post.id} className="grid-post-item">
+                <img
+                  src={post.image}
+                  alt="my post"
+                  className="grid-post-img"
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    )
+  }
+
+  renderLoadingView = () => (
+    <div className="loader-container">
+      <p>Loading...</p>
+    </div>
+  )
+
+  renderFailureView = () => (
+    <div className="failure-container">
+      <p>Something went wrong. Please try again</p>
+      <button type="button" onClick={this.getMyProfile} className="retry-btn">
+        Retry
+      </button>
+    </div>
+  )
+
+  render() {
+    const {apiStatus} = this.state
+
+    return (
+      <div className="profile-main-container">
+        <Header />
+        <div className="profile-content">
+          {apiStatus === apiStatusConstants.inProgress &&
+            this.renderLoadingView()}
+          {apiStatus === apiStatusConstants.success &&
+            this.renderSuccessView()}
+          {apiStatus === apiStatusConstants.failure &&
+            this.renderFailureView()}
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Profile
