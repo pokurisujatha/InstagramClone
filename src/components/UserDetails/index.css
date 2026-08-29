@@ -1,14 +1,3 @@
-/* .page-container {
-  min-height: 100vh;
-  background-color: #fafafa;
-}
-
-.body-container {
-  max-width: 975px;
-  margin: 0 auto;
-  padding: 20px;
-} */
-
 
 
 .user-details-main-container {
@@ -162,4 +151,68 @@
   width: 100%;
   height: 290px;
   object-fit: cover;
+}
+
+/* Mobile Responsive Adjustments */
+@media screen and (max-width: 768px) {
+  .user-details-content {
+    padding: 16px 12px;
+  }
+
+  .profile-header-container {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .user-avatar {
+    width: 80px;
+    height: 80px;
+    margin-right: 0;
+    margin-bottom: 16px;
+  }
+
+  .user-display-name {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .user-stats-row {
+    gap: 16px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .stat-text {
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .highlight-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .user-posts-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin-top: 12px;
+  }
+
+  .grid-post-img {
+    height: 120px;
+  }
+
+  .no-posts-heading {
+    font-size: 22px;
+  }
+
+  .camera-icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .camera-icon {
+    font-size: 30px;
+  }
 }
